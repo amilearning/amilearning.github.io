@@ -26,10 +26,10 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-<!-- I am a Postdoctoral Researcher at the Munich Institute of Robotics and Machine Intelligence (MIRMI), Technical University of Munich (TUM). -->
+I am a Postdoctoral Researcher at the <a href='https://www.mirmi.tum.de/mirmi/startseite/'>Munich Institute of Robotics and Machine Intelligence (MIRMI)</a>, Technical University of Munich (TUM), and a visiting researcher in the <a href='https://www.scenerepresentations.org/'>Scene Representation Group</a> at MIT CSAIL.
 
 My research focuses on uncertainty quantification, <b>adaptive and robust</b> learning-based systems, <b>active</b> learning for perception and planning, <b>representation</b> learning in unstructured environments, hierarchical reinforcement learning, and <b>human-in-the-loop</b> reinforcement learning for <b>robotic applications</b>.
 
-I received my Ph.D. in Mechanical Engineering from the <a href='https://hmc.unist.ac.kr/'> High Assurance Mobility Control Lab </a> at the Ulsan National Institute of Science and Technology (UNIST), Republic of Korea, where I worked on uncertainty-aware planning and control for autonomous systems.
+I received my Ph.D. in Mechanical Engineering from the <a href='https://hmc.unist.ac.kr/'> High Assurance Mobility Control Lab </a> at the Ulsan National Institute of Science and Technology (UNIST), Republic of Korea, advised by Prof. Cheolhyeon Kwon, where I worked on uncertainty-aware planning and control for autonomous systems.
 
 My previous research includes distributed optimal control and estimation for multi-agent systems, agent-to-agent interaction prediction and intent inference, off-road navigation, and continual learning for autonomous systems.
