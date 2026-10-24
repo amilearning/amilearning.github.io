@@ -2,11 +2,12 @@
 layout: page
 title: Autonomous drone competition
 description: Autonomous drone competition in 2021 held by the Department of Defense, Republic of Korea.
-img: assets/img/projects/dronecomp.jpg
+img: assets/img/projects/dronecomp.png
 importance: 1
 category: work
 related_publications: false
 ---
+
 Developing autonomous drone navigation in GNSS-denied environments.
 
 <div class="row mt-1">

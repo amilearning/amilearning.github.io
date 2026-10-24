@@ -1,0 +1,42 @@
+---
+---
+{% capture rm_venue %}{% if entry.journal %}{{ entry.journal }}{% elsif entry.booktitle %}{{ entry.booktitle }}{% endif %}{% endcapture %}
+<a
+  class="rm-node"
+  href="#{{ entry.key }}"
+  data-key="{{ entry.key }}"
+  data-topics="{{ entry.topics }}"
+  data-year="{{ entry.year }}"
+  data-title="{{ entry.title | escape }}"
+  data-venue="{{ rm_venue | strip | escape }}"
+  {% if entry.preview %}
+    data-preview="{{ entry.preview | prepend: '/assets/img/publication_preview/' | relative_url }}"
+  {% endif %}
+  {% if entry.pdf %}
+    data-pdf="{% if entry.pdf contains '://' %}{{ entry.pdf }}{% else %}{{ entry.pdf | prepend: '/assets/pdf/' | relative_url }}{% endif %}"
+  {% endif %}
+  {% if entry.video %}
+    data-video="{{ entry.video }}"
+  {% endif %}
+  {% if entry.doi %}
+    data-doi="{{ entry.doi | remove: 'https://doi.org/' }}"
+  {% endif %}
+  {% if entry.arxiv %}
+    data-arxiv="{{ entry.arxiv }}"
+  {% endif %}
+  {% if entry.website %}
+    data-website="{{ entry.website }}"
+  {% endif %}
+  {% if entry.html %}
+    data-html="{{ entry.html }}"
+  {% endif %}
+  aria-label="{{ entry.title | escape }} ({{ entry.year }})"
+  draggable="false"
+>
+  {% if entry.preview %}
+    <img src="{{ entry.preview | prepend: '/assets/img/publication_preview/' | relative_url }}" alt="" loading="lazy" draggable="false">
+  {% else %}
+    <span class="rm-noimg">{{ rm_venue }}</span>
+  {% endif %}
+  <span class="rm-year">{{ entry.year }}</span>
+</a>

@@ -1,0 +1,420 @@
+// Project scene: one illustrated world on the projects page; each zone links to a project
+
+.project-scene {
+  --ps-sky-top: #7fbbe8;
+  --ps-sky-fade: 1;
+  --ps-sun: #ffd25e;
+  --ps-cloud: #ffffff;
+  --ps-hill-far: #b9d6c4;
+  --ps-hill-near: #9cc4a3;
+  --ps-ground: #7fae6b;
+  --ps-trail: #b89466;
+  --ps-road: #6b7079;
+  --ps-road-line: #f3f3f3;
+  --ps-tree-far: #4f8d64;
+  --ps-tree-mid: #2f6e4a;
+  --ps-tree-near: #24583b;
+  --ps-trunk: #6d4c33;
+  --ps-bldg: #e9edf2;
+  --ps-roof: #5a6b82;
+  --ps-glass: #9fc6e0;
+  --ps-mullion: #e9edf2;
+  --ps-door: #46566b;
+  --ps-accent: #2f6fb3;
+  --ps-stand: #c5cbd3;
+  --ps-track: #4c5058;
+  --ps-infield: #8fbf78;
+  --ps-sign: #f6e7c8;
+  --ps-sign-ink: #5b4423;
+  --ps-pants: #2f3540;
+  --ps-glow: rgba(255, 196, 64, 0.95);
+
+  position: relative;
+  margin: 0.5rem 0 2rem;
+
+  .ps-scroll {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--global-divider-color);
+  }
+
+  .ps-svg {
+    display: block;
+    width: 100%;
+    min-width: 900px;
+    height: auto;
+  }
+
+  .ps-sky {
+    fill: var(--ps-sky-top);
+  }
+  .ps-sky-fade {
+    opacity: var(--ps-sky-fade);
+  }
+  .ps-sun circle {
+    fill: var(--ps-sun);
+  }
+  .ps-moon,
+  .ps-stars {
+    display: none;
+  }
+  .ps-cloud {
+    fill: var(--ps-cloud);
+    opacity: 0.9;
+  }
+  .ps-hill-far {
+    fill: var(--ps-hill-far);
+  }
+  .ps-hill-near {
+    fill: var(--ps-hill-near);
+  }
+  .ps-ground {
+    fill: var(--ps-ground);
+  }
+  .ps-trail {
+    fill: none;
+    stroke: var(--ps-trail);
+    stroke-width: 12;
+    stroke-linecap: round;
+  }
+  .ps-road {
+    fill: var(--ps-road);
+  }
+  .ps-road-line {
+    stroke: var(--ps-road-line);
+    stroke-width: 2;
+    stroke-dasharray: 18 14;
+  }
+  .ps-path {
+    fill: none;
+    stroke: none;
+  }
+
+  .ps-trees-far use {
+    fill: var(--ps-tree-far);
+    color: var(--ps-trunk);
+  }
+  .ps-trees-mid use {
+    fill: var(--ps-tree-mid);
+    color: var(--ps-trunk);
+  }
+  .ps-trees-near use {
+    fill: var(--ps-tree-near);
+    color: var(--ps-trunk);
+  }
+
+  .ps-roof {
+    fill: var(--ps-roof);
+  }
+  .ps-bldg {
+    fill: var(--ps-bldg);
+  }
+  .ps-glass {
+    fill: var(--ps-glass);
+  }
+  .ps-mullions line {
+    stroke: var(--ps-mullion);
+    stroke-width: 3;
+  }
+  .ps-door {
+    fill: var(--ps-door);
+  }
+  .ps-banner {
+    fill: var(--ps-accent);
+  }
+  .ps-banner-text {
+    fill: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .ps-pole {
+    stroke: #8a929c;
+    stroke-width: 3;
+  }
+  .ps-flag {
+    fill: var(--ps-accent);
+    transform-box: fill-box;
+    transform-origin: left center;
+    animation: ps-flag 1.6s ease-in-out infinite alternate;
+  }
+  .ps-flag-b {
+    fill: #e2a03f;
+    animation-delay: -0.8s;
+  }
+
+  .ps-gate-post {
+    stroke: #8a929c;
+    stroke-width: 4;
+  }
+  .ps-gate {
+    fill: none;
+    stroke: #f28c28;
+    stroke-width: 7;
+    stroke-dasharray: 12 6;
+  }
+
+  .ps-stand rect {
+    fill: var(--ps-stand);
+  }
+  .ps-crowd circle:nth-child(3n) {
+    fill: #d4734a;
+  }
+  .ps-crowd circle:nth-child(3n + 1) {
+    fill: #4f7cc4;
+  }
+  .ps-crowd circle:nth-child(3n + 2) {
+    fill: #e2b23f;
+  }
+  .ps-track {
+    fill: var(--ps-track);
+  }
+  .ps-infield {
+    fill: var(--ps-infield);
+  }
+  .ps-finish {
+    fill: #fff;
+    stroke: #222;
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+  }
+
+  .ps-signs line {
+    stroke: var(--ps-sign-ink);
+    stroke-width: 3;
+  }
+  .ps-signs rect {
+    fill: var(--ps-sign);
+    stroke: var(--ps-sign-ink);
+    stroke-width: 1.5;
+  }
+  .ps-signs text {
+    fill: var(--ps-sign-ink);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .ps-walker use {
+    fill: #e8b98f;
+    stroke: var(--ps-shirt);
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+  .ps-walker line {
+    stroke: var(--ps-pants);
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+
+  // Vehicles
+  .ps-yellow {
+    fill: #f2b705;
+  }
+  .ps-black {
+    fill: #25272b;
+  }
+  .ps-grey {
+    fill: #7b8189;
+  }
+  .ps-dark {
+    fill: #2b2e34;
+  }
+  .ps-dark2 {
+    fill: #474c55;
+  }
+  .ps-tyre {
+    fill: #1d1e21;
+  }
+  .ps-spoke {
+    fill: #8a8f97;
+  }
+  .ps-rim {
+    fill: #e8692a;
+  }
+  .ps-hub {
+    fill: #b9bec5;
+  }
+  .ps-strut {
+    stroke: #8a8f97;
+    stroke-width: 2.5;
+  }
+  .ps-link {
+    stroke: #3a3d43;
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+  .ps-grip {
+    fill: #9aa1aa;
+  }
+  .ps-car-body {
+    fill: #f4f5f7;
+    stroke: #9aa0a8;
+    stroke-width: 1.2;
+  }
+  .ps-car-opp .ps-car-body {
+    fill: #d64545;
+    stroke: #9b2c2c;
+  }
+  .ps-car-window {
+    fill: #2c3440;
+  }
+  .ps-checker {
+    fill: #2c3440;
+    opacity: 0.55;
+  }
+  .ps-car-sensor {
+    fill: #2c3440;
+  }
+  .ps-drone-arm {
+    stroke: #3a3d43;
+    stroke-width: 3;
+  }
+  .ps-prop {
+    fill: #9aa1aa;
+    opacity: 0.6;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ps-prop 0.12s linear infinite alternate;
+  }
+
+  // Hotspots: invisible hit areas, glow on hover or focus
+  .ps-hit {
+    fill: transparent;
+  }
+  .ps-hot {
+    cursor: pointer;
+    outline: none;
+    transition:
+      opacity 0.25s,
+      filter 0.25s;
+  }
+  &.is-focus .ps-hot:not(.is-hot) {
+    opacity: 0.55;
+  }
+  .ps-hot.is-hot,
+  .ps-hot:focus-visible {
+    filter: drop-shadow(0 0 6px var(--ps-glow)) drop-shadow(0 0 2px var(--ps-glow));
+  }
+
+  // Preview card
+  .ps-card {
+    position: absolute;
+    z-index: 5;
+    width: 250px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--global-card-bg-color);
+    border: 1px solid var(--global-divider-color);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+    pointer-events: none;
+    animation: ps-card-in 0.16s ease-out;
+
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+  }
+  .ps-card-body {
+    padding: 0.6rem 0.75rem 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .ps-card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--global-text-color);
+  }
+  .ps-card-desc {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--global-text-color-light);
+  }
+  .ps-card-go {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--global-theme-color);
+    margin-top: 0.15rem;
+  }
+}
+
+// Night version follows the site's dark theme
+html[data-theme="dark"] .project-scene {
+  --ps-sky-top: #0f1a36;
+  --ps-sky-fade: 0.18;
+  --ps-cloud: #3a4766;
+  --ps-hill-far: #23344a;
+  --ps-hill-near: #1d3a35;
+  --ps-ground: #284836;
+  --ps-trail: #6d5a42;
+  --ps-road: #3b3f46;
+  --ps-road-line: #b8bcc2;
+  --ps-tree-far: #1f4433;
+  --ps-tree-mid: #173a2a;
+  --ps-tree-near: #102b1f;
+  --ps-trunk: #3d2c1f;
+  --ps-bldg: #3c4553;
+  --ps-roof: #262f3d;
+  --ps-glass: #f6d27a;
+  --ps-mullion: #3c4553;
+  --ps-door: #1c2430;
+  --ps-stand: #4b525c;
+  --ps-track: #2d3036;
+  --ps-infield: #2f5a3c;
+  --ps-sign: #c9b48c;
+
+  .ps-sun {
+    display: none;
+  }
+  .ps-moon,
+  .ps-stars {
+    display: inline;
+  }
+  .ps-moon path {
+    fill: #f1ecd2;
+  }
+  .ps-stars circle {
+    fill: #fff;
+    opacity: 0.85;
+  }
+}
+
+@keyframes ps-flag {
+  from {
+    transform: skewY(-6deg) scaleX(0.92);
+  }
+  to {
+    transform: skewY(6deg) scaleX(1);
+  }
+}
+
+@keyframes ps-prop {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0.35);
+  }
+}
+
+@keyframes ps-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-scene .ps-flag,
+  .project-scene .ps-prop,
+  .project-scene .ps-card {
+    animation: none;
+  }
+}

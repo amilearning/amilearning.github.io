@@ -1,0 +1,39 @@
+# Research topics drawn as a Venn diagram on the publications page.
+# Each paper joins a circle through the `topics` field in _bibliography/papers.bib,
+# e.g. topics={robot-learning, intent-inference} puts it in their overlap.
+# Circles live in a 1000 x 620 canvas: cx, cy = center, r = radius,
+# label_x, label_y = where the topic name sits.
+
+topics:
+  - id: multi-agent
+    name: Multi-agent coordination
+    color: "#3d6db5"
+    cx: 240
+    cy: 300
+    r: 210
+    label_x: 240
+    label_y: 74
+  - id: robot-learning
+    name: Robot learning
+    color: "#2a8a74"
+    cx: 620
+    cy: 250
+    r: 185
+    label_x: 620
+    label_y: 50
+  - id: intent-inference
+    name: Intent inference
+    color: "#c2453a"
+    cx: 740
+    cy: 385
+    r: 155
+    label_x: 880
+    label_y: 578
+  - id: active-planning
+    name: Active planning
+    color: "#c47a1c"
+    cx: 540
+    cy: 490
+    r: 105
+    label_x: 410
+    label_y: 580

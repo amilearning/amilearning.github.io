@@ -1,0 +1,266 @@
+// Lecture room on the teaching page: chalkboard with an animated concept per course
+
+.lecture-room {
+  --lr-wall: #dfe6ee;
+  --lr-floor: #c49d70;
+  --lr-skirting: #a07c55;
+  --lr-frame: #8a6643;
+  --lr-board: #2f4a3c;
+  --lr-chalk: #f4f1e8;
+  --lr-chalk-yellow: #f2d675;
+  --lr-chalk-dim: rgba(244, 241, 232, 0.45);
+  --lr-desk: #9b7350;
+  --lr-seat: #59616d;
+  --lr-skin: #e8b98f;
+  --lr-hair: #3a2a20;
+  --lr-clock: #ffffff;
+  --lr-ink: #2c3440;
+
+  margin: 0.5rem 0 1.5rem;
+
+  .lr-scroll {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--global-divider-color);
+  }
+
+  .lr-svg {
+    display: block;
+    width: 100%;
+    min-width: 720px;
+    height: auto;
+  }
+
+  .lr-wall {
+    fill: var(--lr-wall);
+  }
+  .lr-floor {
+    fill: var(--lr-floor);
+  }
+  .lr-skirting {
+    fill: var(--lr-skirting);
+  }
+  .lr-frame {
+    fill: var(--lr-frame);
+  }
+  .lr-board {
+    fill: var(--lr-board);
+  }
+  .lr-tray {
+    fill: var(--lr-frame);
+  }
+  .lr-chalk {
+    fill: var(--lr-chalk);
+  }
+  .lr-chalk-y {
+    fill: var(--lr-chalk-yellow);
+  }
+  .lr-eraser {
+    fill: #5c4a3a;
+  }
+
+  .lr-clock-face {
+    fill: var(--lr-clock);
+    stroke: var(--lr-ink);
+    stroke-width: 3;
+  }
+  .lr-clock-hand {
+    stroke: var(--lr-ink);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .lr-minute {
+    stroke-width: 2;
+  }
+  .lr-clock-pin {
+    fill: var(--lr-ink);
+  }
+
+  // Chalk on the board
+  // Hidden slides stay rendered (only invisible) so their paths can be measured.
+  .lr-slide {
+    visibility: hidden;
+    font-family: "Chalkboard SE", "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+  }
+  .lr-slide.is-on {
+    visibility: visible;
+  }
+  .lr-title {
+    fill: var(--lr-chalk-yellow);
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .lr-txt {
+    fill: var(--lr-chalk);
+    font-size: 18px;
+  }
+  .lr-small {
+    font-size: 14px;
+  }
+  .lr-eq {
+    font-size: 17px;
+  }
+  .lr-draw {
+    fill: none;
+    stroke: var(--lr-chalk);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .lr-axis {
+    stroke-width: 2;
+  }
+  .lr-ref {
+    stroke: var(--lr-chalk-dim);
+    stroke-dasharray: 6 6;
+  }
+  .lr-yellow {
+    fill: none;
+    stroke: var(--lr-chalk-yellow);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .lr-hatch {
+    stroke-width: 1.6;
+  }
+  .lr-signal,
+  .lr-phase-dot,
+  .lr-look {
+    fill: var(--lr-chalk-yellow);
+  }
+  .lr-rod {
+    stroke: var(--lr-chalk);
+    stroke-width: 3;
+  }
+  .lr-bob {
+    fill: var(--lr-chalk);
+  }
+  .lr-force {
+    stroke: var(--lr-chalk-yellow);
+    stroke-width: 2.5;
+    marker-end: none;
+  }
+  .lr-theta {
+    fill: none;
+    stroke: var(--lr-chalk-yellow);
+    stroke-width: 2;
+  }
+  .lr-look-line {
+    stroke: var(--lr-chalk-yellow);
+    stroke-width: 2;
+    stroke-dasharray: 4 4;
+  }
+  .lr-ray {
+    stroke: rgba(242, 214, 117, 0.45);
+    stroke-width: 1.4;
+  }
+  .lr-car rect {
+    fill: var(--lr-chalk);
+  }
+  .lr-car .lr-car-win {
+    fill: var(--lr-board);
+  }
+
+  // People and furniture
+  .lr-desk,
+  .lr-row-desk {
+    fill: var(--lr-desk);
+  }
+  .lr-seat {
+    fill: var(--lr-seat);
+  }
+  .lr-skin,
+  .lr-head {
+    fill: var(--lr-skin);
+  }
+  .lr-hair {
+    fill: var(--lr-hair);
+  }
+  .lr-student .lr-head {
+    fill: var(--lr-hair);
+  }
+  .lr-front .lr-head {
+    fill: #4a3426;
+  }
+  .lr-back.lr-c0 {
+    fill: #4f7cc4;
+  }
+  .lr-back.lr-c1 {
+    fill: #d4734a;
+  }
+  .lr-back.lr-c2 {
+    fill: #5aa56e;
+  }
+  .lr-back.lr-c3 {
+    fill: #8a62c2;
+  }
+  .lr-ta-body {
+    fill: #2f6fb3;
+  }
+  .lr-leg {
+    stroke: var(--lr-ink);
+    stroke-width: 9;
+    stroke-linecap: round;
+  }
+  .lr-arm {
+    stroke: #2f6fb3;
+    stroke-width: 8;
+    stroke-linecap: round;
+  }
+  .lr-stick {
+    stroke: #6d4c33;
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  // Course buttons under the board
+  .lr-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+
+    button {
+      font: inherit;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--global-divider-color);
+      background: var(--global-card-bg-color);
+      color: var(--global-text-color);
+      cursor: pointer;
+      transition:
+        background 0.2s,
+        color 0.2s,
+        border-color 0.2s;
+
+      &:hover {
+        border-color: var(--global-theme-color);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--global-theme-color);
+        outline-offset: 2px;
+      }
+
+      &.is-on {
+        background: var(--global-theme-color);
+        border-color: var(--global-theme-color);
+        color: var(--global-hover-text-color);
+      }
+    }
+  }
+}
+
+// Evening lecture in the dark theme
+html[data-theme="dark"] .lecture-room {
+  --lr-wall: #2a3240;
+  --lr-floor: #4a3a2c;
+  --lr-skirting: #3a2d22;
+  --lr-frame: #5a4330;
+  --lr-board: #1f3329;
+  --lr-desk: #5e4632;
+  --lr-seat: #3a3f47;
+  --lr-clock: #d9dde3;
+}

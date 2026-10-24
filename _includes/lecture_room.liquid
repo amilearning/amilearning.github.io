@@ -1,0 +1,363 @@
+<!-- Lecture room: the chalkboard shows an animated concept for each course. -->
+<div class="lecture-room">
+  <div class="lr-scroll">
+    <svg class="lr-svg" viewBox="0 0 1000 560" role="img" aria-label="Lecture room with a chalkboard showing course concepts">
+      <!-- Room -->
+      <rect class="lr-wall" x="0" y="0" width="1000" height="430"></rect>
+      <rect class="lr-floor" x="0" y="430" width="1000" height="130"></rect>
+      <rect class="lr-skirting" x="0" y="424" width="1000" height="8"></rect>
+
+      <!-- Wall clock -->
+      <g transform="translate(900,90)">
+        <circle class="lr-clock-face" r="30"></circle>
+        <line class="lr-clock-hand lr-hour" x1="0" y1="0" x2="0" y2="-15"></line>
+        <line class="lr-clock-hand lr-minute" x1="0" y1="0" x2="0" y2="-23"></line>
+        <circle class="lr-clock-pin" r="3"></circle>
+      </g>
+
+      <!-- Chalkboard -->
+      <rect class="lr-frame" x="172" y="58" width="656" height="270" rx="6"></rect>
+      <rect class="lr-board" x="186" y="72" width="628" height="242" rx="2"></rect>
+      <rect class="lr-tray" x="180" y="326" width="640" height="10" rx="2"></rect>
+      <rect class="lr-chalk" x="640" y="320" width="22" height="6" rx="2"></rect>
+      <rect class="lr-chalk lr-chalk-y" x="672" y="320" width="18" height="6" rx="2"></rect>
+      <rect class="lr-eraser" x="720" y="316" width="40" height="10" rx="2"></rect>
+
+      <!-- Slide 1: Advanced Control Systems -->
+      <g class="lr-slide" data-slide="control">
+        <text class="lr-title" x="206" y="104">Advanced Control Systems</text>
+        <text class="lr-txt" x="208" y="176">r</text>
+        <path class="lr-draw" d="M222,170 H266"></path>
+        <path class="lr-draw lr-arrow" d="M258,164 L266,170 L258,176"></path>
+        <circle class="lr-draw" cx="281" cy="170" r="14"></circle>
+        <text class="lr-txt lr-small" x="268" y="166">+</text>
+        <text class="lr-txt lr-small" x="276" y="198">−</text>
+        <path class="lr-draw" d="M295,170 H336"></path>
+        <path class="lr-draw lr-arrow" d="M328,164 L336,170 L328,176"></path>
+        <rect class="lr-draw" x="336" y="148" width="62" height="44"></rect>
+        <text class="lr-txt" x="348" y="177">C(s)</text>
+        <path class="lr-draw" d="M398,170 H436"></path>
+        <path class="lr-draw lr-arrow" d="M428,164 L436,170 L428,176"></path>
+        <rect class="lr-draw" x="436" y="148" width="62" height="44"></rect>
+        <text class="lr-txt" x="449" y="177">P(s)</text>
+        <path class="lr-draw" d="M498,170 H556"></path>
+        <path class="lr-draw lr-arrow" d="M548,164 L556,170 L548,176"></path>
+        <text class="lr-txt" x="562" y="176">y</text>
+        <path id="lr-loop" class="lr-draw" d="M528,170 V232 H281 V184"></path>
+        <path class="lr-draw lr-arrow" d="M275,192 L281,184 L287,192"></path>
+        <circle class="lr-signal" r="5"></circle>
+        <text class="lr-txt lr-eq" x="208" y="282">u = −Kx,   J = ∫ (x'Qx + u'Ru) dt</text>
+        <path class="lr-draw lr-axis" d="M612,262 V122 M612,262 H796"></path>
+        <path class="lr-draw lr-ref" d="M612,172 H796"></path>
+        <path class="lr-draw lr-yellow lr-step"></path>
+        <text class="lr-txt lr-small" x="628" y="290">step response</text>
+      </g>
+
+      <!-- Slide 2: Dynamics -->
+      <g class="lr-slide" data-slide="dynamics">
+        <text class="lr-title" x="206" y="104">Dynamics</text>
+        <path class="lr-draw" d="M260,126 H400"></path>
+        <path class="lr-draw lr-hatch" d="M268,126 l-8,-10 M288,126 l-8,-10 M308,126 l-8,-10 M328,126 l-8,-10 M348,126 l-8,-10 M368,126 l-8,-10 M388,126 l-8,-10"></path>
+        <path class="lr-draw lr-ref" d="M330,126 V290"></path>
+        <g class="lr-pendulum">
+          <line class="lr-rod" x1="330" y1="126" x2="330" y2="266"></line>
+          <circle class="lr-bob" cx="330" cy="266" r="14"></circle>
+          <line class="lr-force lr-mg" x1="330" y1="266" x2="330" y2="312"></line>
+          <text class="lr-txt lr-small lr-mg-label" x="338" y="306">mg</text>
+          <line class="lr-force lr-tension" x1="330" y1="266" x2="330" y2="216"></line>
+          <text class="lr-txt lr-small lr-t-label" x="338" y="226">T</text>
+        </g>
+        <path class="lr-theta"></path>
+        <text class="lr-txt lr-small lr-theta-label" x="338" y="176">θ</text>
+        <text class="lr-txt lr-eq" x="450" y="150">m l² θ'' = − m g l sin θ</text>
+        <text class="lr-txt lr-eq" x="450" y="186">T − m g cos θ = m l θ'²</text>
+        <text class="lr-txt lr-eq" x="450" y="222">ω = √(g / l)</text>
+        <path class="lr-draw lr-axis" d="M640,280 H790 M715,240 V306"></path>
+        <ellipse class="lr-draw lr-ref" cx="715" cy="273" rx="56" ry="26"></ellipse>
+        <circle class="lr-phase-dot" r="5"></circle>
+        <text class="lr-txt lr-small" x="742" y="244">(θ, θ')</text>
+      </g>
+
+      <!-- Slide 3: Applied Engineering Mathematics -->
+      <g class="lr-slide" data-slide="math">
+        <text class="lr-title" x="206" y="104">Applied Engineering Mathematics</text>
+        <path class="lr-draw lr-axis" d="M214,206 H792 M226,126 V286"></path>
+        <path class="lr-draw lr-ref lr-square"></path>
+        <path class="lr-yellow lr-fourier"></path>
+        <text class="lr-txt lr-eq" x="214" y="302">f(x) = (4/π) Σ sin(nx) / n,   n = 1, 3, 5, …</text>
+        <text class="lr-txt lr-terms" x="676" y="138">N = 1</text>
+      </g>
+
+      <!-- Slide 4: Creating Autonomous Car -->
+      <g class="lr-slide" data-slide="car">
+        <text class="lr-title" x="206" y="104">Creating Autonomous Car</text>
+        <path id="lr-lane" class="lr-draw lr-ref" d="M212,282 C300,282 330,150 440,150 S560,268 660,250 S760,160 796,150"></path>
+        <path class="lr-draw" d="M212,262 C296,262 322,130 440,130 S566,248 660,230 S756,140 796,130"></path>
+        <path class="lr-draw" d="M212,302 C304,302 338,170 440,170 S554,288 660,270 S764,180 796,170"></path>
+        <g class="lr-rays"></g>
+        <line class="lr-look-line" x1="0" y1="0" x2="0" y2="0"></line>
+        <circle class="lr-look" r="5"></circle>
+        <g class="lr-car"><rect x="-14" y="-8" width="28" height="16" rx="3"></rect><rect class="lr-car-win" x="2" y="-6" width="7" height="12" rx="1"></rect></g>
+        <text class="lr-txt lr-eq" x="520" y="104">pure pursuit:  δ = atan(2L sin α / l_d)</text>
+      </g>
+
+      <!-- TA at the board -->
+      <g class="lr-ta" transform="translate(120,424)">
+        <line class="lr-leg" x1="-6" y1="0" x2="-4" y2="-58"></line>
+        <line class="lr-leg" x1="8" y1="0" x2="6" y2="-58"></line>
+        <rect class="lr-ta-body" x="-15" y="-120" width="30" height="66" rx="10"></rect>
+        <circle class="lr-skin" cx="0" cy="-136" r="15"></circle>
+        <path class="lr-hair" d="M-15,-140 Q-14,-156 0,-156 Q14,-156 15,-140 Q8,-148 0,-147 Q-8,-148 -15,-140 Z"></path>
+        <g class="lr-pointer-arm"><line class="lr-arm" x1="10" y1="-110" x2="44" y2="-138"></line><line class="lr-stick" x1="44" y1="-138" x2="92" y2="-176"></line></g>
+        <line class="lr-arm" x1="-10" y1="-110" x2="-20" y2="-74"></line>
+      </g>
+      <rect class="lr-desk" x="40" y="372" width="70" height="52" rx="3"></rect>
+
+      <!-- Students, seen from behind -->
+      <g class="lr-students">
+        {% assign row1 = "150,250,350,450,550,650,750,850" | split: "," %}
+        {% for x in row1 %}<g class="lr-student" data-i="{{ forloop.index }}" transform="translate({{ x }},482)"><rect class="lr-seat" x="-30" y="-6" width="60" height="40" rx="6"></rect><rect class="lr-back lr-c{{ forloop.index | modulo: 4 }}" x="-20" y="-40" width="40" height="40" rx="12"></rect><circle class="lr-head" cx="0" cy="-52" r="15"></circle></g>{% endfor %}
+        <rect class="lr-row-desk" x="80" y="500" width="840" height="14" rx="3"></rect>
+        {% assign row2 = "100,215,330,445,560,675,790,905" | split: "," %}
+        {% for x in row2 %}<g class="lr-student lr-front" data-i="{{ forloop.index | plus: 8 }}" transform="translate({{ x }},560)"><rect class="lr-back lr-c{{ forloop.index | plus: 2 | modulo: 4 }}" x="-26" y="-44" width="52" height="46" rx="14"></rect><circle class="lr-head" cx="0" cy="-60" r="18"></circle></g>{% endfor %}
+      </g>
+    </svg>
+  </div>
+  <div class="lr-tabs" role="tablist" aria-label="Courses">
+    <button type="button" role="tab" data-slide="control">Advanced Control Systems</button>
+    <button type="button" role="tab" data-slide="dynamics">Dynamics</button>
+    <button type="button" role="tab" data-slide="math">Applied Engineering Mathematics</button>
+    <button type="button" role="tab" data-slide="car">Creating Autonomous Car</button>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var room = document.querySelector('.lecture-room');
+    if (!room) return;
+    var svg = room.querySelector('.lr-svg');
+    var tabs = Array.prototype.slice.call(room.querySelectorAll('.lr-tabs button'));
+    var slides = {};
+    svg.querySelectorAll('.lr-slide').forEach(function (g) {
+      slides[g.dataset.slide] = g;
+    });
+    var order = ['control', 'dynamics', 'math', 'car'];
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var current = null,
+      shownAt = 0;
+
+    // ----- Static curves computed once -----
+    // Step response of an underdamped second-order system.
+    (function () {
+      var z = 0.35,
+        d = [];
+      for (var i = 0; i <= 120; i++) {
+        var t = i / 10,
+          wd = Math.sqrt(1 - z * z);
+        var y = 1 - Math.exp(-z * t) * (Math.cos(wd * t) + (z / wd) * Math.sin(wd * t));
+        d.push((i ? 'L' : 'M') + (612 + t * 15).toFixed(1) + ',' + (262 - y * 90).toFixed(1));
+      }
+      svg.querySelector('.lr-step').setAttribute('d', d.join(' '));
+    })();
+    // Square wave the Fourier sum approaches.
+    (function () {
+      var d = [],
+        x0 = 226,
+        x1 = 792,
+        A = 60,
+        y0 = 206,
+        period = (x1 - x0) / 2;
+      for (var k = 0; k < 4; k++) {
+        var xa = x0 + (k * period) / 2,
+          xb = xa + period / 2,
+          y = k % 2 ? y0 + A : y0 - A;
+        d.push((k ? 'L' : 'M') + xa + ',' + y + ' L' + xb + ',' + y);
+      }
+      svg.querySelector('.lr-square').setAttribute('d', d.join(' '));
+    })();
+
+    // ----- Chalk drawing in -----
+    function drawIn(g) {
+      var parts = g.querySelectorAll('.lr-draw');
+      parts.forEach(function (el, i) {
+        var len = el.getTotalLength ? el.getTotalLength() : 300;
+        el.style.transition = 'none';
+        el.style.strokeDasharray = len;
+        el.style.strokeDashoffset = still ? 0 : len;
+        el.getBoundingClientRect();
+        if (!still) {
+          el.style.transition = 'stroke-dashoffset ' + Math.min(1.4, 0.3 + len / 500) + 's ease ' + i * 0.08 + 's';
+          el.style.strokeDashoffset = 0;
+        }
+      });
+      g.querySelectorAll('.lr-txt, .lr-title').forEach(function (el, i) {
+        el.style.transition = 'none';
+        el.style.opacity = still ? 1 : 0;
+        el.getBoundingClientRect();
+        if (!still) {
+          el.style.transition = 'opacity 0.5s ease ' + (0.3 + i * 0.12) + 's';
+          el.style.opacity = 1;
+        }
+      });
+    }
+
+    function show(name) {
+      shownAt = performance.now() / 1000;
+      if (name === current) return;
+      current = name;
+      Object.keys(slides).forEach(function (k) {
+        slides[k].classList.toggle('is-on', k === name);
+      });
+      tabs.forEach(function (b) {
+        var on = b.dataset.slide === name;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-selected', on);
+      });
+      drawIn(slides[name]);
+    }
+    tabs.forEach(function (b) {
+      b.addEventListener('click', function () {
+        show(b.dataset.slide);
+      });
+    });
+
+    // ----- Per-slide animation -----
+    var loop = svg.querySelector('#lr-loop'),
+      loopLen = loop.getTotalLength();
+    var signal = svg.querySelector('.lr-signal');
+    var pend = svg.querySelector('.lr-pendulum'),
+      theta = svg.querySelector('.lr-theta');
+    var thetaLabel = svg.querySelector('.lr-theta-label'),
+      phase = svg.querySelector('.lr-phase-dot');
+    var fourier = svg.querySelector('.lr-fourier'),
+      terms = svg.querySelector('.lr-terms');
+    var lane = svg.querySelector('#lr-lane'),
+      laneLen = lane.getTotalLength();
+    var car = svg.querySelector('.lr-car'),
+      look = svg.querySelector('.lr-look'),
+      lookLine = svg.querySelector('.lr-look-line');
+    var rays = svg.querySelector('.lr-rays');
+    for (var r = 0; r < 7; r++) {
+      var ray = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      ray.setAttribute('class', 'lr-ray');
+      rays.appendChild(ray);
+    }
+
+    var animate = {
+      control: function (t) {
+        var p = loop.getPointAtLength((t * 90) % loopLen);
+        signal.setAttribute('cx', p.x);
+        signal.setAttribute('cy', p.y);
+      },
+      dynamics: function (t) {
+        var th = 0.55 * Math.cos(2.0 * t),
+          w = -0.55 * 2.0 * Math.sin(2.0 * t);
+        pend.setAttribute('transform', 'rotate(' + th * 57.3 + ' 330 126)');
+        var L = 46,
+          ex = 330 - L * Math.sin(th),
+          ey = 126 + L * Math.cos(th);
+        theta.setAttribute('d', 'M330,' + (126 + L) + ' A' + L + ',' + L + ' 0 0,' + (th > 0 ? 1 : 0) + ' ' + ex.toFixed(1) + ',' + ey.toFixed(1));
+        thetaLabel.setAttribute('x', 330 + (th > 0 ? -20 : 6));
+        // The tension and gravity arrows keep pointing the right way as the rod swings.
+        pend.querySelector('.lr-mg').setAttribute('transform', 'rotate(' + -th * 57.3 + ' 330 266)');
+        pend.querySelector('.lr-mg-label').setAttribute('transform', 'rotate(' + -th * 57.3 + ' 330 266)');
+        phase.setAttribute('cx', 715 + (56 * th) / 0.55);
+        phase.setAttribute('cy', 273 - (26 * w) / 1.1);
+      },
+      math: function (t, since) {
+        var N = 1 + 2 * (Math.floor(since / 0.9) % 8);
+        var x0 = 226,
+          x1 = 792,
+          A = 60,
+          y0 = 206,
+          d = [];
+        for (var i = 0; i <= 280; i++) {
+          var x = (i / 280) * 4 * Math.PI,
+            s = 0;
+          for (var n = 1; n <= N; n += 2) s += Math.sin(n * x) / n;
+          d.push((i ? 'L' : 'M') + (x0 + ((x1 - x0) * i) / 280).toFixed(1) + ',' + (y0 - ((A * 4) / Math.PI) * s).toFixed(1));
+        }
+        fourier.setAttribute('d', d.join(' '));
+        terms.textContent = 'N = ' + N;
+      },
+      car: function (t) {
+        var s = (t * 60) % (laneLen - 60);
+        var p = lane.getPointAtLength(s),
+          q = lane.getPointAtLength(s + 4),
+          la = lane.getPointAtLength(s + 60);
+        var ang = Math.atan2(q.y - p.y, q.x - p.x);
+        car.setAttribute('transform', 'translate(' + p.x + ',' + p.y + ') rotate(' + ang * 57.3 + ')');
+        look.setAttribute('cx', la.x);
+        look.setAttribute('cy', la.y);
+        lookLine.setAttribute('x1', p.x);
+        lookLine.setAttribute('y1', p.y);
+        lookLine.setAttribute('x2', la.x);
+        lookLine.setAttribute('y2', la.y);
+        Array.prototype.forEach.call(rays.children, function (ray, i) {
+          var a = ang + (i - 3) * 0.35,
+            len = 34 + 6 * Math.sin(t * 6 + i);
+          ray.setAttribute('x1', p.x);
+          ray.setAttribute('y1', p.y);
+          ray.setAttribute('x2', p.x + Math.cos(a) * len);
+          ray.setAttribute('y2', p.y + Math.sin(a) * len);
+        });
+      },
+    };
+
+    // ----- Room life -----
+    var hour = svg.querySelector('.lr-hour'),
+      minute = svg.querySelector('.lr-minute');
+    var arm = svg.querySelector('.lr-pointer-arm');
+    var students = Array.prototype.slice.call(svg.querySelectorAll('.lr-student'));
+    var base = students.map(function (g) {
+      return g.getAttribute('transform');
+    });
+    function roomLife(t) {
+      minute.setAttribute('transform', 'rotate(' + ((t * 6) % 360) + ')');
+      hour.setAttribute('transform', 'rotate(' + ((t * 0.5 + 60) % 360) + ')');
+      arm.setAttribute('transform', 'rotate(' + Math.sin(t * 1.1) * 6 + ' 10 -110)');
+      students.forEach(function (g, i) {
+        var nod = Math.max(0, Math.sin(t * 0.9 + i * 1.7)) * 2.2;
+        g.setAttribute('transform', base[i] + ' translate(0,' + nod.toFixed(2) + ')');
+      });
+    }
+
+    var visible = true,
+      running = false;
+    function frame(now) {
+      var t = now / 1000;
+      animate[current](t, t - shownAt);
+      roomLife(t);
+      if (visible && !document.hidden && !still) requestAnimationFrame(frame);
+      else running = false;
+    }
+    function start() {
+      if (!running && !still) {
+        running = true;
+        requestAnimationFrame(frame);
+      }
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+        if (visible) start();
+      }).observe(svg);
+    }
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) start();
+    });
+
+    show(order[0]);
+    // The board moves on to the next course every 9 s on its own; a click restarts the count.
+    setInterval(function () {
+      if (document.hidden || !visible) return;
+      if (performance.now() / 1000 - shownAt >= 9) show(order[(order.indexOf(current) + 1) % order.length]);
+    }, 500);
+    var t0 = performance.now() / 1000 + 2;
+    Object.keys(animate).forEach(function (k) {
+      animate[k](t0, 3);
+    });
+    roomLife(t0);
+    start();
+  })();
+</script>

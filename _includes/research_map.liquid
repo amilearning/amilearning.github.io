@@ -1,0 +1,384 @@
+{% assign rm = site.data.research_topics %}
+<section class="research-map" aria-label="Publications by research topic">
+  <div class="rm-stage">
+    <svg class="rm-circles" viewBox="0 0 1000 620">
+      {% for t in rm.topics %}
+        <circle data-topic="{{ t.id }}" cx="{{ t.cx }}" cy="{{ t.cy }}" r="{{ t.r }}" style="--rm-color: {{ t.color }};"></circle>
+      {% endfor %}
+      {% for t in rm.topics %}
+        <text data-topic="{{ t.id }}" x="{{ t.label_x }}" y="{{ t.label_y }}" text-anchor="middle" style="--rm-color: {{ t.color }};">{{ t.name }}</text>
+      {% endfor %}
+    </svg>
+    <div class="rm-nodes">
+      {% bibliography --group_by none --template bib_node --query @*[topics] %}
+    </div>
+    <div class="rm-card" hidden></div>
+  </div>
+  <div class="rm-groups"></div>
+</section>
+
+<script>
+  (function () {
+    var map = document.querySelector('.research-map');
+    if (!map) return;
+    var stage = map.querySelector('.rm-stage');
+    var card = map.querySelector('.rm-card');
+    // Canvas units. A thumbnail is 2*HW x 2*HH; R keeps it inside its circles.
+    var W = 1000, H = 620, HW = 60, HH = 40, GAP = 6, R = 70;
+    var circles = {{ rm.topics | jsonify }};
+    var byId = {};
+    circles.forEach(function (c) { byId[c.id] = c; });
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Papers of the same region start on a small spiral around the region's center,
+    // so the settled layout is the same on every visit.
+    var regionCount = {};
+    var nodes = Array.prototype.map.call(stage.querySelectorAll('.rm-node'), function (el, idx) {
+      var ids = (el.dataset.topics || '').split(',').map(function (s) { return s.trim(); }).filter(function (id) { return byId[id]; });
+      var inside = ids.map(function (id) { return byId[id]; });
+      var outside = circles.filter(function (c) { return ids.indexOf(c.id) < 0; });
+      var x = 0, y = 0;
+      inside.forEach(function (c) { x += c.cx; y += c.cy; });
+      var key = ids.join('+'), i = regionCount[key] = (regionCount[key] || 0) + 1;
+      var a = i * 2.39996, s = 62 * Math.sqrt(i - 0.5);
+      x = x / (inside.length || 1) + Math.cos(a) * s * 1.3;
+      y = y / (inside.length || 1) + Math.sin(a) * s * 0.9;
+      return { el: el, ids: ids, inside: inside, outside: outside, x: x, y: y, vx: 0, vy: 0, hx: x, hy: y, phase: idx * 1.7 };
+    }).filter(function (n) { return n.inside.length; });
+    var nodeOf = new Map(nodes.map(function (n) { return [n.el, n]; }));
+
+    // Phones get the same papers grouped by topic instead of the diagram.
+    var groups = map.querySelector('.rm-groups'), seen = {};
+    nodes.forEach(function (n) {
+      var key = n.ids.join('+');
+      if (!seen[key]) {
+        var g = document.createElement('div');
+        g.className = 'rm-group';
+        g.style.setProperty('--rm-color', n.inside[0].color);
+        var h = document.createElement('h3');
+        h.textContent = n.inside.map(function (c) { return c.name; }).join(' + ');
+        var list = document.createElement('div');
+        list.className = 'rm-group-list';
+        g.appendChild(h); g.appendChild(list); groups.appendChild(g);
+        seen[key] = list;
+      }
+      var copy = n.el.cloneNode(true);
+      copy.style.transform = '';
+      seen[key].appendChild(copy);
+    });
+
+    // Keep every paper inside its own topics and outside the rest.
+    function constrain(n) {
+      for (var k = 0; k < 3; k++) {
+        n.inside.forEach(function (c) {
+          var dx = n.x - c.cx, dy = n.y - c.cy, d = Math.hypot(dx, dy) || 1, lim = c.r - R;
+          if (d > lim) { n.x = c.cx + dx / d * lim; n.y = c.cy + dy / d * lim; }
+        });
+        n.outside.forEach(function (c) {
+          var dx = n.x - c.cx, dy = n.y - c.cy, d = Math.hypot(dx, dy) || 1, lim = c.r + R * 0.58;
+          if (d < lim) { n.x = c.cx + dx / d * lim; n.y = c.cy + dy / d * lim; }
+        });
+      }
+    }
+
+    function separate() {
+      for (var i = 0; i < nodes.length; i++) {
+        for (var j = i + 1; j < nodes.length; j++) {
+          // Thumbnails are rectangles: push apart along the axis that overlaps least.
+          var a = nodes[i], b = nodes[j], dx = b.x - a.x, dy = b.y - a.y;
+          var ox = 2 * HW + GAP - Math.abs(dx), oy = 2 * HH + GAP - Math.abs(dy);
+          if (ox > 0 && oy > 0) {
+            // A paper held by the pointer does not give way.
+            var wa = a.drag ? 0 : b.drag ? 1 : 0.5, wb = 1 - wa;
+            if (ox / HW < oy / HH) {
+              var px = (dx < 0 ? -1 : 1) * ox;
+              a.x -= px * wa; b.x += px * wb;
+            } else {
+              var py = (dy < 0 ? -1 : 1) * oy;
+              a.y -= py * wa; b.y += py * wb;
+            }
+          }
+        }
+      }
+    }
+
+    // Settle once to find each paper's resting spot.
+    for (var it = 0; it < 600; it++) { separate(); separate(); nodes.forEach(constrain); }
+    nodes.forEach(function (n) { n.hx = n.x; n.hy = n.y; });
+
+    var scale = 1, mouse = null, hovered = null, drag = null, visible = true, running = false;
+
+    function place() {
+      nodes.forEach(function (n) {
+        n.el.style.transform = 'translate(' + (n.x * scale) + 'px,' + (n.y * scale) + 'px)';
+      });
+    }
+
+    function step(now) {
+      var t = now / 1000, energy = 0;
+      nodes.forEach(function (n) {
+        if (n.drag) return;
+        // Idle float: each paper drifts on its own slow loop around its resting spot.
+        var amp = still || n === hovered ? 0 : 1;
+        var tx = n.hx + Math.sin(t * 0.55 + n.phase) * 5 * amp;
+        var ty = n.hy + Math.cos(t * 0.45 + n.phase * 1.3) * 4 * amp;
+        n.vx += (tx - n.x) * 0.02;
+        n.vy += (ty - n.y) * 0.02;
+        // Only a moving pointer stirs papers, so a slow approach can still land on one.
+        if (mouse && n !== hovered) {
+          var dx = n.x - mouse.x, dy = n.y - mouse.y, d = Math.hypot(dx, dy) || 1, reach = 150;
+          var speed = Math.hypot(mouse.vx, mouse.vy);
+          if (d < reach && speed > 4) {
+            var f = 1 - d / reach;
+            n.vx += mouse.vx * f * 0.22 + dx / d * f * speed * 0.06;
+            n.vy += mouse.vy * f * 0.22 + dy / d * f * speed * 0.06;
+          }
+        }
+        var damp = n === hovered ? 0.7 : 0.88;
+        n.vx *= damp; n.vy *= damp;
+        n.x += n.vx; n.y += n.vy;
+        energy += Math.abs(n.vx) + Math.abs(n.vy) + Math.abs(n.hx - n.x) + Math.abs(n.hy - n.y);
+      });
+      separate();
+      nodes.forEach(constrain);
+      place();
+      if (mouse) { mouse.vx *= 0.6; mouse.vy *= 0.6; }
+      // Keep animating while the float runs on screen; otherwise stop once everything rests.
+      var keepGoing = drag || ((!still && visible) || energy > 0.5);
+      if (keepGoing) requestAnimationFrame(step);
+      else running = false;
+    }
+
+    function wake() {
+      if (!running) { running = true; requestAnimationFrame(step); }
+    }
+
+    function resize() {
+      scale = stage.clientWidth / W;
+      stage.style.setProperty('--rm-scale', scale);
+      place();
+    }
+
+    function toCanvas(e) {
+      var r = stage.getBoundingClientRect();
+      return { x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale };
+    }
+
+    // ----- Hover focus and the preview card -----
+    var hideTimer = null;
+
+    function focusOn(ids, activeEl) {
+      map.classList.add('is-focus');
+      nodes.forEach(function (n) {
+        var on = activeEl ? n.el === activeEl : n.ids.some(function (id) { return ids.indexOf(id) >= 0; });
+        n.el.classList.toggle('is-active', on);
+      });
+      map.querySelectorAll('.rm-circles [data-topic]').forEach(function (el) {
+        el.classList.toggle('is-active', ids.indexOf(el.dataset.topic) >= 0);
+      });
+    }
+
+    function clearFocus() {
+      map.classList.remove('is-focus');
+      map.querySelectorAll('.is-active').forEach(function (el) { el.classList.remove('is-active'); });
+    }
+
+    function link(label, href) {
+      var a = document.createElement('a');
+      a.className = 'rm-card-link';
+      a.href = href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = label;
+      return a;
+    }
+
+    function openCard(n) {
+      clearTimeout(hideTimer);
+      hovered = n;
+      focusOn(n.ids, n.el);
+      var d = n.el.dataset;
+      card.innerHTML = '';
+      if (d.preview) {
+        var img = document.createElement('img');
+        img.src = d.preview;
+        img.alt = '';
+        card.appendChild(img);
+      }
+      var body = document.createElement('div');
+      body.className = 'rm-card-body';
+      var topics = document.createElement('div');
+      topics.className = 'rm-card-topics';
+      n.inside.forEach(function (c) {
+        var chip = document.createElement('span');
+        chip.style.setProperty('--rm-color', c.color);
+        chip.textContent = c.name;
+        topics.appendChild(chip);
+      });
+      var title = document.createElement('div');
+      title.className = 'rm-card-title';
+      title.textContent = d.title;
+      var meta = document.createElement('div');
+      meta.className = 'rm-card-meta';
+      meta.textContent = (d.venue ? d.venue + ', ' : '') + d.year;
+      var links = document.createElement('div');
+      links.className = 'rm-card-links';
+      if (d.pdf) links.appendChild(link('PDF', d.pdf));
+      if (d.video) links.appendChild(link('Video', d.video));
+      if (d.arxiv) links.appendChild(link('arXiv', 'https://arxiv.org/abs/' + d.arxiv));
+      if (d.website) links.appendChild(link('Website', d.website));
+      if (d.doi) links.appendChild(link('DOI', 'https://doi.org/' + d.doi));
+      else if (d.html) links.appendChild(link('HTML', d.html));
+      var entry = document.createElement('a');
+      entry.className = 'rm-card-link rm-card-entry';
+      entry.href = '#' + d.key;
+      entry.dataset.key = d.key;
+      entry.textContent = 'Full entry';
+      links.appendChild(entry);
+      body.appendChild(topics); body.appendChild(title); body.appendChild(meta); body.appendChild(links);
+      card.appendChild(body);
+      card.hidden = false;
+
+      // Beside the paper, on whichever side has room, kept inside the diagram.
+      var s = stage.getBoundingClientRect(), b = n.el.getBoundingClientRect();
+      var cw = card.offsetWidth, ch = card.offsetHeight, gap = 12;
+      var left = b.right - s.left + gap;
+      if (left + cw > s.width) left = b.left - s.left - gap - cw;
+      left = Math.max(0, Math.min(left, s.width - cw));
+      var top = b.top - s.top + b.height / 2 - ch / 2;
+      top = Math.max(0, Math.min(top, s.height - ch));
+      card.style.left = left + 'px';
+      card.style.top = top + 'px';
+    }
+
+    function closeCardSoon() {
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function () {
+        hovered = null;
+        card.hidden = true;
+        clearFocus();
+      }, 180);
+    }
+
+    stage.addEventListener('mouseover', function (e) {
+      if (drag) return;
+      var el = e.target.closest('.rm-node');
+      if (el && nodeOf.has(el)) { if (!hovered || hovered.el !== el) openCard(nodeOf.get(el)); else clearTimeout(hideTimer); return; }
+      if (e.target.closest('.rm-card')) { clearTimeout(hideTimer); return; }
+      var label = e.target.closest('text[data-topic]');
+      if (label && !hovered) { clearTimeout(hideTimer); focusOn([label.dataset.topic]); }
+    });
+    stage.addEventListener('mouseout', function (e) {
+      if (drag) return;
+      var to = e.relatedTarget;
+      if (to && (to.closest && (to.closest('.rm-card') || (hovered && to.closest('.rm-node') === hovered.el)))) return;
+      if (e.target.closest('.rm-node') || e.target.closest('.rm-card')) closeCardSoon();
+      else if (e.target.closest('text[data-topic]') && !hovered) clearFocus();
+    });
+    stage.addEventListener('focusin', function (e) {
+      var el = e.target.closest('.rm-node');
+      if (el && nodeOf.has(el)) openCard(nodeOf.get(el));
+      else clearTimeout(hideTimer);
+    });
+    stage.addEventListener('focusout', function (e) {
+      if (!stage.contains(e.relatedTarget)) closeCardSoon();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && hovered) { clearTimeout(hideTimer); hovered = null; card.hidden = true; clearFocus(); }
+    });
+
+    // ----- Pointer: stir, drag and throw -----
+    stage.addEventListener('pointermove', function (e) {
+      if (e.pointerType === 'touch') return;
+      var p = toCanvas(e);
+      if (drag) {
+        var n = drag.node;
+        n.x = drag.ox + (p.x - drag.px);
+        n.y = drag.oy + (p.y - drag.py);
+        n.vx = p.x - drag.lx; n.vy = p.y - drag.ly;
+        drag.lx = p.x; drag.ly = p.y;
+        if (Math.hypot(p.x - drag.px, p.y - drag.py) > 4) drag.moved = true;
+        constrain(n);
+        wake();
+        return;
+      }
+      mouse = { x: p.x, y: p.y, vx: mouse ? p.x - mouse.x : 0, vy: mouse ? p.y - mouse.y : 0 };
+      wake();
+    });
+    stage.addEventListener('pointerleave', function () { mouse = null; });
+
+    stage.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch' || e.button !== 0) return;
+      var el = e.target.closest('.rm-node');
+      if (!el || !nodeOf.has(el)) return;
+      var n = nodeOf.get(el), p = toCanvas(e);
+      drag = { node: n, px: p.x, py: p.y, ox: n.x, oy: n.y, lx: p.x, ly: p.y, moved: false };
+      n.drag = true;
+      el.setPointerCapture(e.pointerId);
+      el.classList.add('is-dragging');
+      card.hidden = true;
+      wake();
+    });
+    function endDrag() {
+      if (!drag) return;
+      var n = drag.node;
+      n.drag = false;
+      n.el.classList.remove('is-dragging');
+      // Throw: keep the release speed, then the spring brings it home.
+      n.vx *= still ? 0 : 1.6; n.vy *= still ? 0 : 1.6;
+      suppressClick = drag.moved;
+      drag = null;
+      hovered = null;
+      clearFocus();
+      wake();
+    }
+    var suppressClick = false;
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+
+    // ----- Jump to the full entry in the folded publication list -----
+    function openEntry(key) {
+      var target = document.getElementById(key);
+      if (!target) return false;
+      // The list is folded and sits below this script, so look it up at click time.
+      var details = target.closest('details');
+      if (details) details.open = true;
+      var row = target.closest('li') || target;
+      // Wait one frame so the unfolded list has a layout to scroll to.
+      requestAnimationFrame(function () {
+        var top = row.getBoundingClientRect().top + window.scrollY - (window.innerHeight - row.offsetHeight) / 2;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        row.classList.remove('rm-flash');
+        void row.offsetWidth;
+        row.classList.add('rm-flash');
+      });
+      history.replaceState(null, '', '#' + key);
+      return true;
+    }
+
+    map.addEventListener('click', function (e) {
+      var el = e.target.closest('.rm-node, .rm-card-entry');
+      if (!el) return;
+      if (suppressClick) { suppressClick = false; e.preventDefault(); return; }
+      if (openEntry(el.dataset.key)) e.preventDefault();
+    });
+
+    // A link straight to a paper (#key) also unfolds the list and shows that entry.
+    window.addEventListener('load', function () {
+      var key = decodeURIComponent(location.hash.slice(1));
+      if (key && map.querySelector('.rm-node[data-key="' + key.replace(/"/g, '') + '"]')) openEntry(key);
+    });
+
+    // Pause the float while the diagram is scrolled out of view.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+        if (visible) wake();
+      }).observe(stage);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    wake();
+  })();
+</script>

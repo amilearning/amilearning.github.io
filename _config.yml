@@ -4,7 +4,7 @@
 
 title: blank # the website title (if blank, full name will be used instead)
 first_name: Hojin
-middle_name: 
+middle_name:
 last_name: Lee
 contact_note: >
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
@@ -15,7 +15,7 @@ lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 icon: roboticon.png # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 
 url: https://amilearning.github.io # the base hostname & protocol for your site
-baseurl:  # the subpath of your site, e.g. /blog/. Leave blank for root
+baseurl: # the subpath of your site, e.g. /blog/. Leave blank for root
 last_updated: true # set to true if you want to display last updated in the footer
 impressum_path: # set to path to include impressum link in the footer, use the same path as permalink in a page, helps to conform with EU GDPR
 back_to_top: true # set to false to disable the back to top button
@@ -83,7 +83,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # -----------------------------------------------------------------------------
 
 blog_name: hojin.lee # blog_name will be displayed in your blog page
-blog_description: 
+blog_description:
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
@@ -121,7 +121,6 @@ disqus_shortname: al-folio # put your disqus shortname
 # external_sources:
 #   - name: medium.com
 #     rss_url: https://medium.com/@al-folio/feed
- 
 
 # -----------------------------------------------------------------------------
 # Newsletter
@@ -315,6 +314,7 @@ filtered_bibtex_keywords:
     selected,
     slides,
     supp,
+    topics,
     video,
     website,
   ]

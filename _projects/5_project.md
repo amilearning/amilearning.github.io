@@ -2,11 +2,12 @@
 layout: page
 title: Autonomous racing competition
 description: Autonomous racing competition in 2022 held by the Ministry of Trade, Industry and Energy, Republic of Korea.
-img: assets/img/projects/kona.jpg
+img: assets/img/projects/kona.png
 importance: 1
 category: work
 related_publications: false
 ---
+
 Developing an autonomous racing vehicle capable of speeds up to 110 km/h.
 
 <div class="row mt-1">
@@ -26,7 +27,6 @@ High-speed racing with virtual items on the track.
 <div class="caption">
 Emergency box-drop test.
 </div>
-
 
 <div class="row mt-1">
 <div class="col-sm mt-2 mt-md-0">
