@@ -13,11 +13,6 @@ horizontal: false
 
 {% include project_scene.liquid %}
 
-<details class="publication-list">
-  <summary>
-    <span class="when-closed">Show all projects</span><span class="when-open">Hide project list</span>
-  </summary>
-
 <div class="projects">
 {% if site.enable_project_categories and page.display_categories %}
   <!-- Display categorized projects -->
@@ -71,5 +66,3 @@ horizontal: false
   {% endif %}
 {% endif %}
 </div>
-
-</details>

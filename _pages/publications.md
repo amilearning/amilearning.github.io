@@ -13,17 +13,17 @@ nav_order: 2
 <!--
 {% include bib_search.liquid %} -->
 
+<details class="publication-list research-map-fold">
+  <summary>
+    <span class="when-closed">Show research map</span><span class="when-open">Hide research map</span><span class="count">(publications by topic)</span>
+  </summary>
+
 {% include research_map.liquid %}
 
-<details class="publication-list">
-  <summary>
-    <span class="when-closed">Show all publications</span><span class="when-open">Hide publication list</span><span class="count">(listed by year)</span>
-  </summary>
+</details>
 
 <div class="publications">
 
 {% bibliography %}
 
 </div>
-
-</details>

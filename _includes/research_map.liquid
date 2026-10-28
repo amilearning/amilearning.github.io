@@ -336,11 +336,11 @@
     stage.addEventListener('pointerup', endDrag);
     stage.addEventListener('pointercancel', endDrag);
 
-    // ----- Jump to the full entry in the folded publication list -----
+    // ----- Jump to the full entry in the publication list below -----
     function openEntry(key) {
       var target = document.getElementById(key);
       if (!target) return false;
-      // The list is folded and sits below this script, so look it up at click time.
+      // The list sits below this script, so look it up at click time.
       var details = target.closest('details');
       if (details) details.open = true;
       var row = target.closest('li') || target;
@@ -375,6 +375,15 @@
         visible = entries[0].isIntersecting;
         if (visible) wake();
       }).observe(stage);
+    }
+
+    // The map starts folded inside a <details>, where it has no width;
+    // measure it again each time the fold is opened.
+    var fold = map.closest('details');
+    if (fold) {
+      fold.addEventListener('toggle', function () {
+        if (fold.open) { resize(); wake(); }
+      });
     }
 
     window.addEventListener('resize', resize);
